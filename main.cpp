@@ -7,7 +7,20 @@ class Sudoku {
     private:
     bool valid;
 
-    
+    bool has_dublicate(const std::vector<std::vector<int>> &matrix, int i, int j) const {
+        for(int row = 0; row < 9; row++) if(row != j && matrix[i][j] == matrix[i][row] && matrix[i][j] > 0 && matrix[i][row] > 0) return true;
+        //Verify row dublicates
+        for(int column = 0; column < 9; column++) if(column != i && matrix[i][j] ==matrix[column][j] && matrix[i][j] > 0 && matrix[column][j] > 0)return true;
+        //Verify box dublicates
+        int krow = i/3, kcolumn = j/3;
+
+        for(int row = 3*krow; row < krow*3 + 3; row++){
+            for(int column = 3*kcolumn; column < kcolumn*3 + 3; column++){
+                if(column!=j && row!=i && matrix[i][j] == matrix[row][column] && matrix[i][j] > 0 && matrix[row][column] > 0) return true;
+            }
+        }
+        return false;
+    }
 
     public:
     std::vector<std::vector<int>> matrix;
@@ -23,20 +36,9 @@ class Sudoku {
         }
         return true;
     };
-    bool has_dublicate(const std::vector<std::vector<int>> &matrix, int i, int j) const {
-        for(int row = 0; row < 9; row++) if(row != j && matrix[i][j] == matrix[i][row] && matrix[i][j] > 0 && matrix[i][row] > 0) return true;
-        //Verify row dublicates
-        for(int column = 0; column < 9; column++) if(column != i && matrix[i][j] ==matrix[column][j] && matrix[i][j] > 0 && matrix[column][j] > 0)return true;
-        //Verify box dublicates
-        int krow = i/3, kcolumn = j/3;
+    
 
-        for(int row = 3*krow; row < krow*3 + 3; row++){
-            for(int column = 3*kcolumn; column < kcolumn*3 + 3; column++){
-                if(column!=j && row!=i && matrix[i][j] == matrix[row][column] && matrix[i][j] > 0 && matrix[row][column] > 0) return true;
-            }
-        }
-        return false;
-    }
+    
     friend std::ifstream & operator>>(std::ifstream&, Sudoku&);
     friend std::ostream & operator<<(std::ostream&, Sudoku&);
     friend std::ofstream & operator<<(std::ofstream&, Sudoku&);
@@ -120,9 +122,8 @@ void solve_a_puzzle(){
     std::cout << "Original Sudoku puzzle:" << std::endl;
     std::cout << sudoku << std::endl;
 
-    /*std::cout << "Solving..." << std::endl;
-    sudoku.solve();
+    std::cout << "Solving..." << std::endl;
+    //sudoku.solve();
     std::cout << "Solved Sudoku puzzle:" << std::endl;
     std::cout << sudoku << std::endl;
- */
 }
