@@ -21,9 +21,10 @@ class Sudoku {
         }
         return false;
     }
-
     public:
     std::vector<std::vector<int>> matrix;
+    
+
     
     bool get_valid() { return valid; };
     void set_valid(bool value) { valid = value; };
@@ -123,7 +124,7 @@ void solve_a_puzzle(){
     std::cout << sudoku << std::endl;
 
     std::cout << "Solving..." << std::endl;
-    //sudoku.solve();
+
     std::cout << "Solved Sudoku puzzle:" << std::endl;
     std::cout << sudoku << std::endl;
 }
