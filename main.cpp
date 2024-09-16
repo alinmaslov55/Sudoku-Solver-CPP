@@ -38,7 +38,41 @@ class Sudoku {
         return true;
     };
     
+    bool solve() {
+        int row = -1, column = -1;
+        bool found = false;
 
+        for (row = 0; row < SIZE; row++) {
+            for (column = 0; column < SIZE; column++) {
+                if (matrix[row][column] == 0) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) break;
+        }
+
+        // Base case: If no empty cells are found, the Sudoku is solved
+        if (!found) return true;
+
+        for (int num = 1; num <= SIZE; num++) {
+            matrix[row][column] = num;
+            
+            // Check if adding this number introduces duplicates
+            if (has_dublicate(matrix, row, column)) {
+                matrix[row][column] = 0;
+                continue;
+            }
+            
+            // Recursive call
+            if (solve()) return true;
+
+            // If the number doesn't work, reset the cell and try the next one
+            matrix[row][column] = 0;
+        }
+
+        return false;  // Backtrack if no valid number is found
+    }
     
     friend std::ifstream & operator>>(std::ifstream&, Sudoku&);
     friend std::ostream & operator<<(std::ostream&, Sudoku&);
